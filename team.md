@@ -1,251 +1,456 @@
 ---
 botmrr: 2
 id: velaris-sales-workflow
-release: "1.0.0"
+release: 1.0.0
 name: Velaris Sales & Operations Team
-tagline: Multi-room sim-racing telemetry lead pipeline, consent-gated delivery, and cross-border invoicing workflow.
-summary: Coordinates five rooms (Sales, Chief, Delivery, Finance, Marketing) across 21 specialized bots with founder approval gates, read-only knowledge graph queries, rule-based consent checks, and dead-letter logging.
-outcomes:
-  - Qualified sim-racing telemetry leads scored and synced across Notion and Supabase
-  - Founder-approved X outreach DMs with automated 7/14/21-day follow-up cadences
-  - Guardian-consent-verified telemetry intake and two-gate MVO delivery packets
-  - Purpose-coded cross-border Stripe invoices, minor contract packets, and overdue collections
-  - Weekly Chief Room digests, daily capacity alerts, and a 10-piece content waterfall
+tagline: A consent-gated sim-racing telemetry lead, delivery, finance, and content workflow.
+summary: Coordinates five operational rooms and 21 specialized agents across lead discovery, qualification, founder-approved
+  outreach, guardian-consent-gated telemetry intake, MVO delivery, cross-border invoicing, and approved content
+  publishing.
 category: operations
 author:
   name: Velaris-OC
-  github: harshit10012004
   url: https://github.com/harshit10012004/Velaris-OpenMaus-Workflow
 license: Apache-2.0
 setupMinutes: 30
+outcomes:
+- Qualified sim-racing telemetry leads scored and recorded in Notion and Supabase.
+- Founder-reviewed outreach drafts and controlled 7/14/21-day follow-up workflows.
+- Telemetry intake blocked until guardian consent is verified as complete.
+- MVO and family-summary delivery gated by prescription and founder sign-off.
+- Purpose-coded invoices, contract packets, and overdue-payment reminders.
+- Weekly leadership reporting, capacity monitoring, and a ten-asset content workflow.
 requirements:
   apps:
-    - slug: discord
-      name: Discord
-      required: true
-    - slug: x-api
-      name: X (Twitter) API
-      required: true
-    - slug: stripe
-      name: Stripe
-      required: true
-    - slug: notion
-      name: Notion
-      required: true
-    - slug: supabase
-      name: Supabase
-      required: true
-    - slug: buffer
-      name: Buffer
-      required: false
-    - slug: instagram-api
-      name: Instagram API
-      required: false
-    - slug: drive
-      name: Google Drive
-      required: true
-    - slug: gmail
-      name: Gmail
-      required: true
-    - slug: calendar
-      name: Google Calendar
-      required: true
-    - slug: knowledge-graph
-      name: LightRAG Knowledge Graph (Read-Only)
-      required: true
+  - slug: discord
+    label: Discord
+    reason: Monitor sim-racing community discussions for relevant, public lead signals.
+    optional: false
+  - slug: x-api
+    label: X (Twitter) API
+    reason: Search public posts and support approved outreach workflows.
+    optional: false
+  - slug: stripe
+    label: Stripe
+    reason: Prepare and manage invoices and payment follow-up.
+    optional: false
+  - slug: notion
+    label: Notion
+    reason: Maintain the lead CRM and operational records.
+    optional: false
+  - slug: supabase
+    label: Supabase
+    reason: Store structured lead and workflow data.
+    optional: false
+  - slug: buffer
+    label: Buffer
+    reason: Schedule approved marketing content.
+    optional: true
+  - slug: instagram-api
+    label: Instagram API
+    reason: Support approved Instagram publishing and engagement workflows.
+    optional: true
+  - slug: drive
+    label: Google Drive
+    reason: Store telemetry uploads, delivery packets, invoices, and contracts.
+    optional: false
+  - slug: gmail
+    label: Gmail
+    reason: Send approved client communications and delivery emails.
+    optional: false
+  - slug: calendar
+    label: Google Calendar
+    reason: Find and book debrief slots after explicit confirmation.
+    optional: false
+  - slug: knowledge-graph
+    label: LightRAG Knowledge Graph (Read-Only)
+    reason: Retrieve relevant knowledge for progress notes and content briefs without writing to the graph.
+    optional: false
+  capabilities:
+  - scheduled-routines
+  - multi-agent-coordination
+  - file-management
 team:
-  chief_of_staff: digest
-  rooms:
-    - slug: sales
-      name: Sales Room
-      description: Lead acquisition, qualification, and outreach
-      color: "#e3f2fd"
-    - slug: chief
-      name: Chief Room
-      description: Founder coordination, weekly rituals, capacity monitoring
-      color: "#f3e5f5"
-    - slug: delivery
-      name: Delivery Room
-      description: Client onboarding, MVO delivery, debrief scheduling
-      color: "#f3e5f5"
-    - slug: finance
-      name: Finance Room
-      description: Invoicing, compliance, cross-border operations
-      color: "#e8f5e9"
-    - slug: marketing
-      name: Marketing Room
-      description: Content waterfall, distribution, analytics
-      color: "#e8fdae"
+  name: Velaris Operations
+  leader: digest
+  brief: 'Operate a five-room sim-racing telemetry service workflow. Preserve consent, privacy, founder approval,
+    and delivery gates. Treat connector names as requirements only: each user must connect and authorize their own
+    accounts. Never claim an action succeeded unless the relevant connector confirms it.'
 agents:
-  - name: prospecting
-    role: Lead acquisition agent monitoring sim-racing Discord channels and X posts
-    room: sales
-    model_hint: openrouter/free
-    approval_required: false
-  - name: qualifier
-    role: Structured lead classifier scoring leads (0-100) and mapping client_type (A-D) and jurisdiction (IN, AE, MY, SG)
-    room: sales
-    model_hint: opencode/nemotron-3-super-free
-    approval_required: false
-  - name: outreach
-    role: Drafts personalized DMs from templates/outreach_dm.md.j2 and routes to founder approval queue
-    room: sales
-    model_hint: openrouter/gemma-4-26b-a4b-it:free
-    approval_required: true
-  - name: followup
-    role: Event-driven follow-up scheduler for no-reply leads on a 7/14/21 day cadence
-    room: sales
-    model_hint: mimo-v2.5-free
-    approval_required: false
-  - name: crm
-    role: CRUD logger syncing lead_id, client_type, jurisdiction, stage, and last_touch to Notion and Supabase
-    room: sales
-    model_hint: null
-    approval_required: false
-  - name: digest
-    role: Chief of Staff weekly summariser broadcasting weekly digest across all rooms
-    room: chief
-    model_hint: openrouter/minimax-m3.1-flash:free
-    approval_required: false
-  - name: approval_gate
-    role: Weekly strategic decision maker presenting 3 options across resource, product, channel, pricing, and capacity
-    room: chief
-    model_hint: openrouter/free
-    approval_required: true
-  - name: capacity_monitor
-    role: Daily delivery queue monitor enforcing soft threshold 8 and hard threshold 11 intake block
-    room: chief
-    model_hint: null
-    approval_required: false
-  - name: intake
-    role: Validates uploaded telemetry files and blocks intake until guardian consent status is complete
-    room: delivery
-    model_hint: null
-    approval_required: false
-  - name: delivery
-    role: Executes MVO and family summary delivery after Gate 1 prescription and Gate 2 signoff
-    room: delivery
-    model_hint: null
-    approval_required: true
-  - name: progress
-    role: Weekly per-client progress note drafter querying knowledge graph in read-only mode
-    room: delivery
-    model_hint: opencode/nemotron-3-super-free
-    approval_required: conditional
-  - name: scheduling
-    role: Proposes 3 founder calendar slots after debrief completion and schedules upon confirmation
-    room: delivery
-    model_hint: mimo-v2.5-free
-    approval_required: true
-  - name: invoice
-    role: Generates micro_forensics invoices with lead_id and purpose_code metadata and saves PDFs
-    room: finance
-    model_hint: openrouter/north-mini-code:free
-    approval_required: true
-  - name: collections
-    role: Overdue invoice follow-up scheduler running on a 7/14/21 day cadence
-    room: finance
-    model_hint: mimo-v2.5-free
-    approval_required: false
-  - name: contract
-    role: Generates SOW, DPA, consent pack, and assent form packets for minor client types C and D
-    room: finance
-    model_hint: null
-    approval_required: true
-  - name: consent
-    role: Rule-based consent validator blocking intake until consent status is complete without model calls
-    room: finance
-    model_hint: null
-    approval_required: false
-  - name: brief
-    role: Queries knowledge graph in read-only mode (max 5 results) to produce content briefs
-    room: marketing
-    model_hint: openrouter/free
-    approval_required: true
-  - name: atomiser
-    role: Transforms approved content briefs into 10 multi-platform pieces from templates/atomiser_output.md.j2
-    room: marketing
-    model_hint: openrouter/gemma-4-26b-a4b-it:free
-    approval_required: true
-  - name: publisher
-    role: Publishes approved content across X, LinkedIn, and Instagram via Buffer and native APIs
-    room: marketing
-    model_hint: null
-    approval_required: false
-  - name: engagement
-    role: Daily triage bot classifying comments and DMs into pricing, general, feature_request, or spam
-    room: marketing
-    model_hint: liquid/lfm-2.5-2.6b:free
-    approval_required: conditional
-  - name: analytics
-    role: Weekly performance reporter feeding impressions, engagements, clicks, and growth into chief digest
-    room: marketing
-    model_hint: null
-    approval_required: false
-skills:
-  - sales-qualification-and-outreach
-  - guardian-consent-and-mvo-gating
-  - cross-border-invoicing-and-collections
-  - content-waterfall-and-chief-rituals
+- key: prospecting
+  name: Prospecting Agent
+  description: 'Lead acquisition; monitors sim-racing Discord channels and X posts. Suggested model: openrouter/free.'
+  appearance:
+    color: blue
+  approval: auto
+  title: Sales specialist
+- key: qualifier
+  name: Lead Qualifier
+  description: 'Scores leads 0–100 and classifies client type A–D, jurisdiction IN/AE/MY/SG, urgency, and recommended
+    action. Suggested model: opencode/nemotron-3-super-free.'
+  appearance:
+    color: cyan
+  approval: auto
+  title: Sales specialist
+- key: outreach
+  name: Outreach Drafter
+  description: 'Drafts personalized messages from approved templates and queues them for founder approval. Suggested
+    model: openrouter/gemma-4-26b-a4b-it:free.'
+  appearance:
+    color: green
+  approval: ask
+  title: Sales specialist
+- key: followup
+  name: Follow-up Scheduler
+  description: 'Coordinates 7/14/21-day follow-ups only when a lead has not replied. Suggested model: mimo-v2.5-free.'
+  appearance:
+    color: purple
+  approval: auto
+  title: Sales specialist
+- key: crm
+  name: CRM Synchronizer
+  description: Maintains lead_id, client_type, jurisdiction, stage, and last_touch in Notion and Supabase.
+  appearance:
+    color: orange
+  approval: auto
+  title: Sales specialist
+- key: digest
+  name: Chief of Staff Digest
+  description: 'Compiles weekly summaries across all rooms and reports to the founder. Suggested model: openrouter/minimax-m3.1-flash:free.'
+  appearance:
+    color: blue
+  approval: auto
+  title: Chief specialist
+- key: approval_gate
+  name: Founder Approval Gate
+  description: Presents strategic choices covering resources, product, channels, pricing, and capacity; never approves
+    its own proposals.
+  appearance:
+    color: cyan
+  approval: ask
+  title: Chief specialist
+- key: capacity_monitor
+  name: Capacity Monitor
+  description: Checks delivery queue capacity; soft threshold 8 and hard intake-block threshold 11.
+  appearance:
+    color: green
+  approval: auto
+  title: Chief specialist
+- key: intake
+  name: Telemetry Intake Validator
+  description: Validates uploaded telemetry files and blocks intake until guardian consent is complete.
+  appearance:
+    color: purple
+  approval: auto
+  title: Delivery specialist
+- key: delivery
+  name: MVO Delivery Coordinator
+  description: Coordinates MVO and family-summary delivery only after prescription and founder sign-off gates.
+  appearance:
+    color: orange
+  approval: ask
+  title: Delivery specialist
+- key: progress
+  name: Client Progress Drafter
+  description: 'Drafts weekly client progress notes using read-only knowledge-graph queries; founder approval required
+    for recommendations. Suggested model: opencode/nemotron-3-super-free.'
+  appearance:
+    color: blue
+  approval: ask
+  title: Delivery specialist
+- key: scheduling
+  name: Debrief Scheduler
+  description: 'Proposes three founder-calendar slots after debrief completion and books only after confirmation.
+    Suggested model: mimo-v2.5-free.'
+  appearance:
+    color: cyan
+  approval: ask
+  title: Delivery specialist
+- key: invoice
+  name: Invoice Generator
+  description: 'Prepares purpose-coded Stripe invoices with lead_id metadata and saves PDF copies; requires founder
+    approval before sending. Suggested model: openrouter/north-mini-code:free.'
+  appearance:
+    color: green
+  approval: ask
+  title: Finance specialist
+- key: collections
+  name: Collections Coordinator
+  description: 'Manages overdue invoice reminders on a 7/14/21-day cadence. Suggested model: mimo-v2.5-free.'
+  appearance:
+    color: purple
+  approval: auto
+  title: Finance specialist
+- key: contract
+  name: Contract Packet Generator
+  description: Prepares SOW, DPA, consent pack, and assent forms for client types C and D; founder approval required
+    before dispatch.
+  appearance:
+    color: orange
+  approval: ask
+  title: Finance specialist
+- key: consent
+  name: Consent Validator
+  description: Applies deterministic consent checks and blocks intake until consent status is complete; do not infer
+    consent.
+  appearance:
+    color: blue
+  approval: auto
+  title: Finance specialist
+- key: brief
+  name: Content Brief Researcher
+  description: 'Uses read-only knowledge-graph queries, capped at five results, to prepare content briefs for founder
+    angle selection. Suggested model: openrouter/free.'
+  appearance:
+    color: cyan
+  approval: ask
+  title: Marketing specialist
+- key: atomiser
+  name: Content Atomiser
+  description: 'Turns approved briefs into ten platform-specific draft assets for review. Suggested model: openrouter/gemma-4-26b-a4b-it:free.'
+  appearance:
+    color: green
+  approval: ask
+  title: Marketing specialist
+- key: publisher
+  name: Content Publisher
+  description: Publishes only founder-approved content to X, LinkedIn, and Instagram using configured connectors.
+  appearance:
+    color: purple
+  approval: ask
+  title: Marketing specialist
+- key: engagement
+  name: Engagement Triage
+  description: 'Classifies inbound comments and DMs as pricing, general, feature_request, or spam; routes pricing
+    to founder. Suggested model: liquid/lfm-2.5-2.6b:free.'
+  appearance:
+    color: orange
+  approval: ask
+  title: Marketing specialist
+- key: analytics
+  name: Marketing Analytics Reporter
+  description: Reports impressions, engagements, clicks, and growth into the Chief digest.
+  appearance:
+    color: blue
+  approval: auto
+  title: Marketing specialist
+rooms:
+- key: sales
+  name: Sales Room
+  members:
+  - prospecting
+  - qualifier
+  - outreach
+  - followup
+  - crm
+  defaultResponder:
+    kind: agent
+    agent: prospecting
+  bulletin: Discover and qualify relevant leads. Outreach must be drafted for founder approval before sending.
+- key: chief
+  name: Chief Room
+  members:
+  - digest
+  - approval_gate
+  - capacity_monitor
+  defaultResponder:
+    kind: agent
+    agent: digest
+  bulletin: Coordinate leadership reporting, strategic approvals, and delivery capacity. Escalate decisions to the
+    founder.
+- key: delivery
+  name: Delivery Room
+  members:
+  - intake
+  - delivery
+  - progress
+  - scheduling
+  defaultResponder:
+    kind: agent
+    agent: intake
+  bulletin: Do not accept or deliver client telemetry work until consent and both MVO approval gates are satisfied.
+- key: finance
+  name: Finance Room
+  members:
+  - invoice
+  - collections
+  - contract
+  - consent
+  defaultResponder:
+    kind: agent
+    agent: invoice
+  bulletin: Prepare invoices and contract documents carefully. Founder approval is required before external dispatch
+    where specified.
+- key: marketing
+  name: Marketing Room
+  members:
+  - brief
+  - atomiser
+  - publisher
+  - engagement
+  - analytics
+  defaultResponder:
+    kind: agent
+    agent: brief
+  bulletin: Research and draft content; publish only material that has received founder approval.
 routines:
-  - name: sales_prospecting_and_qualification
-    schedule: "Mon, Wed, Fri"
-    enabledAfterInstall: false
-  - name: sales_outreach_queue
-    schedule: "Tue, Thu, Sat"
-    enabledAfterInstall: false
-  - name: chief_weekly_digest_and_decisions
-    schedule: "Sun 09:00 / Sun 09:15"
-    enabledAfterInstall: false
-  - name: chief_daily_capacity_check
-    schedule: "Daily 09:00"
-    enabledAfterInstall: false
-  - name: delivery_intake_and_weekly_progress
-    schedule: "Mon-Sat intake / Mon 09:00 progress"
-    enabledAfterInstall: false
-  - name: marketing_brief_engagement_and_analytics
-    schedule: "Mon, Thu brief / Daily 09:00 engagement / Sun 10:00 analytics"
-    enabledAfterInstall: false
+- key: sales_prospecting_and_qualification
+  name: Sales prospecting and qualification
+  agent: prospecting
+  prompt: Review the configured Discord and X public-source queues, identify relevant sim-racing telemetry prospects,
+    and pass candidates to the qualifier. Record only necessary business-relevant data. Do not send messages.
+  runOn: cloud
+  schedule:
+    type: cron
+    expression: 0 9 * * 1,3,5
+    timeZone: Asia/Kolkata
+  durationMinutes: 25
+  enabledAfterInstall: false
+  overlap: skip
+- key: sales_outreach_queue
+  name: Sales outreach review queue
+  agent: outreach
+  prompt: Prepare personalized outreach drafts for qualified leads using the approved outreach template. Place drafts
+    in the founder approval queue. Do not send unless explicit approval is recorded; after an approved send, let
+    the follow-up agent manage the 7/14/21-day cadence.
+  runOn: cloud
+  schedule:
+    type: cron
+    expression: 0 9 * * 2,4,6
+    timeZone: Asia/Kolkata
+  durationMinutes: 25
+  enabledAfterInstall: false
+  overlap: skip
+- key: chief_weekly_digest_and_decisions
+  name: Weekly Chief digest and decisions
+  agent: digest
+  prompt: Compile the weekly digest from all rooms, then prepare strategic decision options for the founder covering
+    resources, product, channels, pricing, and capacity. The approval gate must present options, not make the founder's
+    decision.
+  runOn: cloud
+  schedule:
+    type: cron
+    expression: 0 9 * * 0
+    timeZone: Asia/Kolkata
+  durationMinutes: 30
+  enabledAfterInstall: false
+  overlap: skip
+- key: chief_daily_capacity_check
+  name: Daily delivery capacity check
+  agent: capacity_monitor
+  prompt: Check the Delivery Room queue. At 8 active items, flag capacity in the Chief digest. At 11, recommend
+    or apply the configured intake block and notify the founder. Do not delete or silently discard queued work.
+  runOn: cloud
+  schedule:
+    type: cron
+    expression: 0 9 * * *
+    timeZone: Asia/Kolkata
+  durationMinutes: 15
+  enabledAfterInstall: false
+  overlap: skip
+- key: delivery_intake_and_weekly_progress
+  name: Delivery intake and weekly progress
+  agent: intake
+  prompt: Review pending telemetry intake items during the configured Mon–Sat operating window. Validate file presence
+    and consent status; block intake unless guardian consent is explicitly complete. On Mondays, ask the progress
+    agent to prepare weekly client notes using read-only knowledge-graph access. Do not deliver MVO materials without
+    both Gate 1 prescription and Gate 2 founder sign-off.
+  runOn: cloud
+  schedule:
+    type: cron
+    expression: 0 9 * * 1-6
+    timeZone: Asia/Kolkata
+  durationMinutes: 30
+  enabledAfterInstall: false
+  overlap: skip
+- key: marketing_brief_engagement_and_analytics
+  name: Marketing workflow review
+  agent: brief
+  prompt: Review content-brief requests and prepare briefs from at most five read-only knowledge-graph results.
+    Coordinate daily engagement triage and weekly metrics reporting through the assigned agents. Content atomisation
+    and publishing remain approval-gated; never publish unapproved content.
+  runOn: cloud
+  schedule:
+    type: cron
+    expression: 0 10 * * 0,1,4
+    timeZone: Asia/Kolkata
+  durationMinutes: 30
+  enabledAfterInstall: false
+  overlap: skip
 ---
 
 # Velaris Sales & Operations Team
 
-Multi-room telemetry operations workflow covering lead acquisition, structured qualification, guardian-consent-gated MVO delivery, cross-border Stripe invoicing, and a 10-piece content waterfall.
+A five-room workflow for sim-racing telemetry services, with explicit consent, founder-approval, and delivery safeguards.
 
-## Setup Checklist
-1. Import this template folder into OpenMausBot Desktop via **Import…**.
-2. Connect required integrations in **Apps / Connectors** (`discord`, `x-api`, `stripe`, `notion`, `supabase`, `buffer`, `instagram-api`, `drive`, `gmail`, `calendar`, and read-only `knowledge-graph`).
-3. Configure dead-letter logging (`{timestamp}_{script}_{bot}.json`, 365-day retention) in your workspace settings and enable routines after reviewing founder gates.
+## Activation
 
-## Room Architecture
+Import this repository folder using OpenMausBot Desktop's **Import…** action. Connect only the integrations your workspace actually uses, review each permission, and verify the configured account and data scope before enabling any workflow. All six routines arrive paused.
 
-### Sales Room (`sales`)
-- **prospecting** (`openrouter/free`, Mon/Wed/Fri): Monitors Discord channels (`iRacing Help`, `ACC Questions`, `LUM Support`) and X search keywords (`stuck at`, `iRating`, `data analysis`, `lap time`). Uses manual feed queue (`auto_advance: false`).
-- **qualifier** (`opencode/nemotron-3-super-free`, Mon/Wed/Fri): Classifies leads into `lead_id`, `client_type` (`A`, `B`, `C`, `D`), `jurisdiction` (`IN`, `AE`, `MY`, `SG`), `score` (`0`–`100`), `urgency` (`high`, `medium`, `low`), and `recommended_action` (`outreach`, `nurture`, `disqualify`).
-- **outreach** (`openrouter/gemma-4-26b-a4b-it:free`, Tue/Thu/Sat): Drafts DMs using `templates/outreach_dm.md.j2` and holds in founder approval queue (`48h` timeout; `on_reject: nurture`, `on_approve: send_dm_and_start_followup`).
-- **followup** (`mimo-v2.5-free`, event-driven): Sends automated follow-ups on a `7/14/21 days` cadence when there is no reply.
-- **crm** (deterministic CRUD, event-driven): Upserts `lead_id`, `client_type`, `jurisdiction`, `stage`, and `last_touch` into Notion (`leads`) and Supabase (`public.leads`).
+## Mission
 
-### Chief Room (`chief`)
-- **digest** (`openrouter/minimax-m3.1-flash:free`, Sun `09:00`): Aggregates summaries across all rooms and broadcasts the weekly digest to the founder.
-- **approval_gate** (`openrouter/free`, Sun `09:15`): Presents 3 strategic decisions across `resource_allocation`, `product_change`, `channel_shift`, `pricing_change`, and `capacity_adjustment` (`24h` timeout fallback).
-- **capacity_monitor** (deterministic monitor, Daily `09:00`): Checks Delivery Room file count with soft threshold `8` (`digest_flag`) and hard threshold `11` (`block_intake`).
+Coordinate lead acquisition, qualification, approved outreach, consent-verified telemetry intake, MVO delivery, invoicing, contract preparation, and marketing operations without bypassing human approval or consent requirements.
 
-### Delivery Room (`delivery`)
-- **intake** (deterministic validator, Mon–Sat): Validates files in Drive `telemetry_uploads` and blocks intake unless guardian consent status is `complete`.
-- **delivery** (deterministic sender, event `gate_2_signed`): Enforces `mvo_gate_1` (prescription authored) and `mvo_gate_2` (founder signoff) before sending `mvo.md` and `family_summary.md` via Gmail and archiving to `client_deliveries/{lead_id}/{date}` in Drive.
-- **progress** (`opencode/nemotron-3-super-free`, Mon `09:00`): Queries the knowledge graph in read-only mode to draft weekly per-client progress notes; requires founder approval if recommendations are included.
-- **scheduling** (`mimo-v2.5-free`, event `debrief_complete`): Finds 3 open slots on `founder_calendar` and confirms debrief booking.
+## Outcomes
 
-### Finance Room (`finance`)
-- **invoice** (`openrouter/north-mini-code:free`, event `project_complete`): Creates Stripe `micro_forensics` invoices with `lead_id` and `purpose_code` metadata, saves `invoices/{invoice_id}.pdf` to Drive, emails `invoice_template.md`, and routes to founder gate (`24h` timeout).
-- **collections** (`mimo-v2.5-free`, event `overdue`): Sends `collections_reminder.md` on a `7/14/21 days` cadence for overdue Stripe invoices.
-- **contract** (deterministic generator, event `client_type_cd`): Generates `sow.md`, `dpa.md`, `consent_pack.md`, and `assent_form.md` for minor client types `C` and `D` into `contracts/{client_type}/` and emails `contract_submission.md` after founder approval (`48h` timeout).
-- **consent** (deterministic validator, event `signature_received`): Runs rule-based consent verification (`rule_based: true`, zero LLM calls) and unlocks intake only when `consent_status == complete`.
+- Qualified leads with documented score, client type, jurisdiction, urgency, and next action.
+- Outreach drafts held for founder approval, with follow-up only after an approved send and no reply.
+- Telemetry intake blocked until guardian consent is explicitly verified as complete.
+- MVO and family-summary delivery only after prescription (Gate 1) and founder sign-off (Gate 2).
+- Purpose-coded Stripe invoices, client contract packets, and controlled collections reminders.
+- Weekly Chief reporting, capacity alerts, and founder-reviewed multi-platform content.
 
-### Marketing Room (`marketing`)
-- **brief** (`openrouter/free`, Mon/Thu): Queries the knowledge graph (`read_only: true`, `max_results: 5`) to emit `content_brief.json` for founder angle selection.
-- **atomiser** (`openrouter/gemma-4-26b-a4b-it:free`, event `brief_approved`): Expands an approved brief into 10 platform drafts via `templates/atomiser_output.md.j2` for founder review.
-- **publisher** (deterministic publisher, event `approval_cleared`): Publishes approved content to X, LinkedIn, and Instagram via Buffer and native APIs.
-- **engagement** (`liquid/lfm-2.5-2.6b:free`, Daily `09:00`): Classifies comments and DMs (`pricing`, `general`, `feature_request`, `spam`), routing pricing queries to the founder and auto-replying to general queries with `engagement_reply.md`.
-- **analytics** (deterministic reporter, Sun `10:00`): Pulls Buffer and X metrics (`impressions`, `engagements`, `clicks`, `growth`) into the Chief digest.
+## Connections
+
+- **Discord:** monitor configured sim-racing community channels.
+- **X (Twitter) API:** discover public posts and support approved outreach.
+- **Stripe:** prepare invoices and monitor payment status.
+- **Notion / Supabase:** maintain CRM records and structured workflow data.
+- **Google Drive:** store uploads, delivery packets, invoices, and contracts.
+- **Gmail:** send communications only after the required approval.
+- **Google Calendar:** propose debrief slots and book only after confirmation.
+- **Buffer / Instagram API:** optional distribution tools for approved content.
+- **LightRAG Knowledge Graph:** read-only retrieval; never write or modify graph data.
+
+A listed connector is not authorization. Each operator must connect their own account and grant only the required permissions. If a connector is unavailable, report the limitation rather than pretending the action completed.
+
+## Team
+
+### Sales Room
+- **Prospecting:** monitors configured Discord channels (including iRacing Help, ACC Questions, and LUM Support) and public X search terms such as “iRating”, “lap time”, and “data analysis”.
+- **Qualifier:** records `lead_id`, `client_type` (A–D), `jurisdiction` (IN, AE, MY, SG), score (0–100), urgency, and recommended action.
+- **Outreach:** drafts personalized messages from `templates/outreach_dm.md.j2`; queues them for founder approval. A rejection routes the lead to nurture.
+- **Follow-up:** manages the 7/14/21-day no-reply cadence only after a permitted initial outreach.
+- **CRM:** synchronizes `lead_id`, `client_type`, `jurisdiction`, `stage`, and `last_touch` with Notion and Supabase.
+
+### Chief Room
+- **Digest:** compiles weekly reports across all rooms.
+- **Approval gate:** presents strategic options for founder decision; it cannot approve its own proposals.
+- **Capacity monitor:** flags the soft threshold of 8 active delivery items and the hard threshold of 11.
+
+### Delivery Room
+- **Intake:** validates files in Drive's `telemetry_uploads` area and blocks intake unless guardian consent is explicitly `complete`.
+- **Delivery:** sends `mvo.md` and `family_summary.md` only after `mvo_gate_1` (prescription authored) and `mvo_gate_2` (founder sign-off); archives approved outputs under `client_deliveries/{lead_id}/{date}`.
+- **Progress:** drafts weekly client notes using read-only knowledge-graph queries (maximum five results); recommendations require founder approval.
+- **Scheduling:** proposes three available founder-calendar slots after debrief completion and books only after confirmation.
+
+### Finance Room
+- **Invoice:** prepares Stripe `micro_forensics` invoices with `lead_id` and `purpose_code` metadata, saves PDF copies, and queues external dispatch for founder approval.
+- **Collections:** coordinates overdue reminders on a 7/14/21-day cadence.
+- **Contract:** prepares SOW, DPA, consent pack, and assent form packets for client types C and D; founder approval is required before sending.
+- **Consent:** performs deterministic rule-based checks. It must not infer consent from silence, uploaded files, or an incomplete signature record.
+
+### Marketing Room
+- **Brief:** creates `content_brief.json` from no more than five read-only knowledge-graph results.
+- **Atomiser:** turns an approved brief into ten platform-specific drafts using `templates/atomiser_output.md.j2`.
+- **Publisher:** distributes only founder-approved content to X, LinkedIn, and Instagram.
+- **Engagement:** classifies inbound comments and DMs as pricing, general, feature_request, or spam; pricing queries go to the founder.
+- **Analytics:** reports impressions, engagements, clicks, and growth to the Chief digest.
+
+## Chief of Staff
+
+The Chief of Staff is **Digest** (`digest`). It coordinates weekly reporting and escalates strategic decisions, consent exceptions, capacity blocks, and approval requests to the founder. It does not override room-level safeguards.
+
+## Completion rule
+
+A task is complete only when its expected output is verified in the destination system and any required human approval is recorded. Never claim a message was sent, an invoice was issued, a booking was made, consent was obtained, or content was published without confirmation from the relevant system. Keep all routines paused until the founder explicitly enables them. Never store API keys, passwords, or private credentials in this template.
