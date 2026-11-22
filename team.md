@@ -20,37 +20,37 @@ license: Apache-2.0
 setupMinutes: 30
 requirements:
   apps:
-    - id: discord
+    - slug: discord
       name: Discord
       required: true
-    - id: x_api
+    - slug: x-api
       name: X (Twitter) API
       required: true
-    - id: stripe
+    - slug: stripe
       name: Stripe
       required: true
-    - id: notion
+    - slug: notion
       name: Notion
       required: true
-    - id: supabase
+    - slug: supabase
       name: Supabase
       required: true
-    - id: buffer
+    - slug: buffer
       name: Buffer
       required: false
-    - id: instagram_api
+    - slug: instagram-api
       name: Instagram API
       required: false
-    - id: drive
+    - slug: drive
       name: Google Drive
       required: true
-    - id: gmail
+    - slug: gmail
       name: Gmail
       required: true
-    - id: calendar
+    - slug: calendar
       name: Google Calendar
       required: true
-    - id: knowledge_graph
+    - slug: knowledge-graph
       name: LightRAG Knowledge Graph (Read-Only)
       required: true
 team:
@@ -214,7 +214,7 @@ Multi-room telemetry operations workflow covering lead acquisition, structured q
 
 ## Setup Checklist
 1. Import this template folder into OpenMausBot Desktop via **Import…**.
-2. Connect required integrations in **Apps / Connectors** (`discord`, `x_api`, `stripe`, `notion`, `supabase`, `buffer`, `instagram_api`, `drive`, `gmail`, `calendar`, and read-only `knowledge_graph`).
+2. Connect required integrations in **Apps / Connectors** (`discord`, `x-api`, `stripe`, `notion`, `supabase`, `buffer`, `instagram-api`, `drive`, `gmail`, `calendar`, and read-only `knowledge-graph`).
 3. Configure dead-letter logging (`{timestamp}_{script}_{bot}.json`, 365-day retention) in your workspace settings and enable routines after reviewing founder gates.
 
 ## Room Architecture
