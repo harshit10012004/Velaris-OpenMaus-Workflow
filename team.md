@@ -5,6 +5,12 @@ release: "1.0.0"
 name: Velaris Sales & Operations Team
 tagline: Multi-room sim-racing telemetry lead pipeline, consent-gated delivery, and cross-border invoicing workflow.
 summary: Coordinates five rooms (Sales, Chief, Delivery, Finance, Marketing) across 21 specialized bots with founder approval gates, read-only knowledge graph queries, rule-based consent checks, and dead-letter logging.
+outcomes:
+  - Qualified sim-racing telemetry leads scored and synced across Notion and Supabase
+  - Founder-approved X outreach DMs with automated 7/14/21-day follow-up cadences
+  - Guardian-consent-verified telemetry intake and two-gate MVO delivery packets
+  - Purpose-coded cross-border Stripe invoices, minor contract packets, and overdue collections
+  - Weekly Chief Room digests, daily capacity alerts, and a 10-piece content waterfall
 category: operations
 author:
   name: Velaris-OC
