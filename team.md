@@ -19,7 +19,7 @@ author:
 license: Apache-2.0
 setupMinutes: 30
 requirements:
-  connectors:
+  apps:
     - discord
     - x_api
     - stripe
