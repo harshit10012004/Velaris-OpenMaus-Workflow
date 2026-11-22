@@ -20,17 +20,39 @@ license: Apache-2.0
 setupMinutes: 30
 requirements:
   apps:
-    - discord
-    - x_api
-    - stripe
-    - notion
-    - supabase
-    - buffer
-    - instagram_api
-    - drive
-    - gmail
-    - calendar
-    - knowledge_graph
+    - id: discord
+      name: Discord
+      required: true
+    - id: x_api
+      name: X (Twitter) API
+      required: true
+    - id: stripe
+      name: Stripe
+      required: true
+    - id: notion
+      name: Notion
+      required: true
+    - id: supabase
+      name: Supabase
+      required: true
+    - id: buffer
+      name: Buffer
+      required: false
+    - id: instagram_api
+      name: Instagram API
+      required: false
+    - id: drive
+      name: Google Drive
+      required: true
+    - id: gmail
+      name: Gmail
+      required: true
+    - id: calendar
+      name: Google Calendar
+      required: true
+    - id: knowledge_graph
+      name: LightRAG Knowledge Graph (Read-Only)
+      required: true
 team:
   chief_of_staff: digest
   rooms:
