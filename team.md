@@ -1,11 +1,7 @@
 ---
 botmrr: 2
 id: velaris-sales-workflow
-name: Velaris Sales & Operations Team
-tagline: Multi-room sim-racing telemetry lead pipeline, consent-gated delivery, and cross-border invoicing workflow.
-
----
-botmrr: 2
+release: "1.0.0"
 name: Velaris Sales & Operations Team
 tagline: Multi-room sim-racing telemetry lead pipeline, consent-gated delivery, and cross-border invoicing workflow.
 summary: Coordinates five rooms (Sales, Chief, Delivery, Finance, Marketing) across 21 specialized bots with founder approval gates, read-only knowledge graph queries, rule-based consent checks, and dead-letter logging.
@@ -196,8 +192,8 @@ Multi-room telemetry operations workflow covering lead acquisition, structured q
 - **prospecting** (`openrouter/free`, Mon/Wed/Fri): Monitors Discord channels (`iRacing Help`, `ACC Questions`, `LUM Support`) and X search keywords (`stuck at`, `iRating`, `data analysis`, `lap time`). Uses manual feed queue (`auto_advance: false`).
 - **qualifier** (`opencode/nemotron-3-super-free`, Mon/Wed/Fri): Classifies leads into `lead_id`, `client_type` (`A`, `B`, `C`, `D`), `jurisdiction` (`IN`, `AE`, `MY`, `SG`), `score` (`0`–`100`), `urgency` (`high`, `medium`, `low`), and `recommended_action` (`outreach`, `nurture`, `disqualify`).
 - **outreach** (`openrouter/gemma-4-26b-a4b-it:free`, Tue/Thu/Sat): Drafts DMs using `templates/outreach_dm.md.j2` and holds in founder approval queue (`48h` timeout; `on_reject: nurture`, `on_approve: send_dm_and_start_followup`).
-- **followup** (`mimo-v2.5-free`, event-driven): Sends automated follow-ups on a `7/14/21 days` cadence on `no_reply`.
-- **crm** (deterministic CRUD, event-driven): Upserts `lead_id`, `client_type`, `jurisdiction`, `stage`, and `last_touch` to Notion (`leads`) and Supabase (`public.leads`).
+- **followup** (`mimo-v2.5-free`, event-driven): Sends automated follow-ups on a `7/14/21 days` cadence when there is no reply.
+- **crm** (deterministic CRUD, event-driven): Upserts `lead_id`, `client_type`, `jurisdiction`, `stage`, and `last_touch` into Notion (`leads`) and Supabase (`public.leads`).
 
 ### Chief Room (`chief`)
 - **digest** (`openrouter/minimax-m3.1-flash:free`, Sun `09:00`): Aggregates summaries across all rooms and broadcasts the weekly digest to the founder.
