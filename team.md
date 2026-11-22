@@ -6,7 +6,10 @@ name: Velaris Sales & Operations Team
 tagline: Multi-room sim-racing telemetry lead pipeline, consent-gated delivery, and cross-border invoicing workflow.
 summary: Coordinates five rooms (Sales, Chief, Delivery, Finance, Marketing) across 21 specialized bots with founder approval gates, read-only knowledge graph queries, rule-based consent checks, and dead-letter logging.
 category: operations
-author: Velaris-OC
+author:
+  name: Velaris-OC
+  github: harshit10012004
+  url: https://github.com/harshit10012004/Velaris-OpenMaus-Workflow
 license: Apache-2.0
 setupMinutes: 30
 requirements:
